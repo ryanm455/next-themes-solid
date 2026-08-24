@@ -23,10 +23,10 @@ function Home() {
   const { theme, resolvedTheme, systemTheme } = useTheme()
 
   return (
-    <main style={{ padding: '2rem', font-family: 'sans-serif' }}>
+    <main style={{ padding: '2rem', "font-family": 'sans-serif' }}>
       <h1>next-themes-solid — TanStack Start example</h1>
       <ThemeToggle />
-      <pre style={{ margin-top: '1rem' }}>
+      <pre style={{ "margin-top": '1rem' }}>
         {JSON.stringify({ theme: theme(), resolvedTheme: resolvedTheme(), systemTheme: systemTheme() }, null, 2)}
       </pre>
     </main>
