@@ -9,10 +9,10 @@ import {
   untrack,
   useContext,
   type Accessor,
-  type JSX,
   type Signal,
 } from 'solid-js'
-import { isServer } from 'solid-js/web'
+import { isServer } from '@solidjs/web'
+import type { JSX } from '@solidjs/web'
 
 import {
   applyTheme,
@@ -180,14 +180,16 @@ function ThemeImplementation(props: ThemeProviderProps) {
   // adoption (which has nothing to cross-fade from).
   if (!isServer) {
     let prev: Theme | undefined
-    createEffect(() => {
-      const mode = resolve(props.forcedTheme ?? preference())
-      if (props.disableTransitionOnChange && prev !== undefined && prev !== mode) {
-        suppressTransitionsOnce()
-      }
-      prev = mode
-      applyTheme(config(), mode, document.documentElement)
-    })
+    createEffect(
+      () => resolve(props.forcedTheme ?? preference()),
+      (mode) => {
+        if (props.disableTransitionOnChange && prev !== undefined && prev !== mode) {
+          suppressTransitionsOnce()
+        }
+        prev = mode
+        applyTheme(config(), mode, document.documentElement)
+      },
+    )
   }
 
   // Getters, not snapshots — these track their props reactively.
@@ -205,11 +207,11 @@ function ThemeImplementation(props: ThemeProviderProps) {
   }
 
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext value={value}>
       <Show when={props.injectScript !== false}>
         <script nonce={props.nonce} innerHTML={themeScript(config())} />
       </Show>
       {props.children}
-    </ThemeContext.Provider>
+    </ThemeContext>
   )
 }
