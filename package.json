@@ -39,8 +39,8 @@
     "lint": "oxlint lint ."
   },
   "dependencies": {
-    "@solid-primitives/media": "^2.3.0",
-    "@solid-primitives/storage": "^4.4.0"
+    "@solid-primitives/media": "^4.0.0-next.2",
+    "@solid-primitives/storage": "^5.0.0-next.4"
   },
   "peerDependencies": {
     "solid-js": "^2.0.0-rc.7",

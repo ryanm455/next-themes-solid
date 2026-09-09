@@ -9,7 +9,6 @@ import {
   untrack,
   useContext,
   type Accessor,
-  type Signal,
 } from 'solid-js'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
@@ -155,7 +154,7 @@ function ThemeImplementation(props: ThemeProviderProps) {
 
   // Identity codec: localStorage must hold exactly what the pre-paint script
   // reads back — `dark`, not makePersisted's default JSON `"dark"`.
-  const [preference, setPreference] = makePersisted<Theme, Signal<Theme>>(
+  const [preference, setPreference] = makePersisted<Theme>(
     createSignal<Theme>(defaultTheme),
     {
       name: storageKey,
