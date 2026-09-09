@@ -101,11 +101,12 @@ type ThemeContextValue = {
   setTheme: (theme: Theme | ((prev: Theme) => Theme)) => void
 }
 
-const ThemeContext = createContext<ThemeContextValue>()
+const noThemeContext = Symbol('no-theme-context')
+const ThemeContext = createContext<ThemeContextValue | typeof noThemeContext>(noThemeContext)
 
 export const useTheme = (): ThemeContextValue => {
   const ctx = useContext(ThemeContext)
-  if (!ctx) throw new Error('useTheme must be used within a <ThemeProvider>')
+  if (ctx === noThemeContext) throw new Error('useTheme must be used within a <ThemeProvider>')
   return ctx
 }
 
@@ -131,7 +132,7 @@ const safeStorage = {
 
 /** Passthrough when nested — only the outermost provider owns the DOM. */
 export function ThemeProvider(props: ThemeProviderProps) {
-  if (useContext(ThemeContext)) return props.children as JSX.Element
+  if (useContext(ThemeContext) !== noThemeContext) return props.children as JSX.Element
   return <ThemeImplementation {...props} />
 }
 
